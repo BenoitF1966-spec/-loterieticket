@@ -1,16 +1,16 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IRSN – Protocole séquentiel</title>
+    <title>IRSN – Protocole Séquentiel</title>
 
     <style>
         body {
             margin:0;
             font-family:Arial, sans-serif;
             background:#0a0f1c;
-            color:#f5f5f5;
+            color:#e5e7eb;
         }
 
         header {
@@ -35,50 +35,73 @@
 
         main {
             max-width:1000px;
-            margin:20px auto 40px auto;
+            margin:30px auto;
             padding:0 15px;
+        }
+
+        /* Boutons ronds + et × */
+        .op-container {
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        .opBtn {
+            width:120px;
+            height:120px;
+            border-radius:50%;
+            background:#002b55;
+            border:3px solid #0af;
+            display:inline-flex;
+            justify-content:center;
+            align-items:center;
+            margin:20px;
+            font-size:48px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+            box-shadow:0 0 20px #0af;
+        }
+
+        .opBtn:hover {
+            background:#0af;
+            color:#000;
+            transform:scale(1.1);
+            box-shadow:0 0 30px #4cf;
         }
 
         .bloc {
             background:#111827;
             border-left:4px solid #0af;
-            padding:15px 20px;
-            margin-bottom:20px;
+            padding:20px;
+            margin-bottom:25px;
             border-radius:6px;
         }
 
         .bloc h2 {
             margin-top:0;
-            font-size:20px;
             color:#7dd3fc;
-        }
-
-        .bloc p {
-            margin:5px 0 0 0;
-            line-height:1.5;
+            font-size:22px;
         }
 
         table {
             width:100%;
             border-collapse:collapse;
-            margin-top:10px;
+            margin-top:15px;
         }
 
         th, td {
             border:1px solid #1f2937;
-            padding:8px;
+            padding:10px;
             text-align:center;
-            font-size:16px;
+            font-size:18px;
         }
 
         th {
-            background:#111827;
-            color:#e5e7eb;
+            background:#0f172a;
         }
 
         td {
             background:#020617;
-            color:#e5e7eb;
         }
 
         td:hover {
@@ -88,18 +111,18 @@
         }
 
         .analyse {
-            margin-top:20px;
             display:flex;
             align-items:center;
             gap:15px;
+            margin-top:15px;
         }
 
         .loader {
-            border:4px solid #1f2937;
-            border-top:4px solid #0af;
+            border:5px solid #1f2937;
+            border-top:5px solid #0af;
             border-radius:50%;
-            width:32px;
-            height:32px;
+            width:40px;
+            height:40px;
             animation:spin 1s linear infinite;
         }
 
@@ -112,62 +135,52 @@
             background:#001a33;
             color:#9ca3af;
             text-align:center;
-            padding:10px;
-            font-size:13px;
+            padding:12px;
+            font-size:14px;
             border-top:3px solid #0af;
+            margin-top:40px;
         }
     </style>
 </head>
+
 <body>
 
 <header>
     <img src="irsn-nasa.png" alt="IRSN Logo">
-    <h1>IRSN – Protocole séquentiel</h1>
+    <h1>Protocole Séquentiel – IRSN</h1>
 </header>
 
 <main>
 
+    <!-- Boutons ronds + et × -->
+    <div class="op-container">
+        <div class="opBtn" onclick="playSound()">+</div>
+        <div class="opBtn" onclick="playSound()">×</div>
+    </div>
+
     <div class="bloc">
         <h2>Présentation du protocole</h2>
         <p>
-            Cette interface simule un module de contrôle séquentiel utilisé pour la validation de paramètres
-            numériques. La grille ci‑dessous présente un ensemble de valeurs de 1 à 49, organisées pour une
-            consultation rapide et structurée.
+            Ce module simule une interface de consultation séquentielle utilisée pour la validation de paramètres
+            numériques. La grille ci‑dessous présente les valeurs de 1 à 49, organisées pour une lecture rapide et
+            structurée.
         </p>
     </div>
 
     <div class="bloc">
         <h2>Tableau des valeurs (1 à 49)</h2>
         <p>
-            Chaque cellule représente une valeur individuelle pouvant être sélectionnée ou analysée dans le cadre
-            d’un protocole de vérification.
+            Chaque cellule représente une valeur individuelle pouvant être analysée dans le cadre du protocole.
         </p>
 
         <table>
-            <tr>
-                <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
-            </tr>
-            <tr>
-                <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
-            </tr>
-            <tr>
-                <td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td>
-            </tr>
-            <tr>
-                <td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td>
-            </tr>
-            <tr>
-                <td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td>
-            </tr>
-            <tr>
-                <td>29</td><td>30</td><td>31</td><td>32</td><td>33</td><td>34</td><td>35</td>
-            </tr>
-            <tr>
-                <td>36</td><td>37</td><td>38</td><td>39</td><td>40</td><td>41</td><td>42</td>
-            </tr>
-            <tr>
-                <td>43</td><td>44</td><td>45</td><td>46</td><td>47</td><td>48</td><td>49</td>
-            </tr>
+            <tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+            <tr><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td></tr>
+            <tr><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td></tr>
+            <tr><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td></tr>
+            <tr><td>29</td><td>30</td><td>31</td><td>32</td><td>33</td><td>34</td><td>35</td></tr>
+            <tr><td>36</td><td>37</td><td>38</td><td>39</td><td>40</td><td>41</td><td>42</td></tr>
+            <tr><td>43</td><td>44</td><td>45</td><td>46</td><td>47</td><td>48</td><td>49</td></tr>
         </table>
     </div>
 
@@ -176,8 +189,8 @@
         <div class="analyse">
             <div class="loader"></div>
             <p>
-                Analyse séquentielle des paramètres en cours…<br>
-                Veuillez patienter pendant le traitement des données.
+                Analyse séquentielle des paramètres en cours.<br>
+                Veuillez patienter pendant le traitement.
             </p>
         </div>
     </div>
@@ -185,8 +198,18 @@
 </main>
 
 <footer>
-    © IRSN – Module de démonstration séquentielle – 2026
+    © IRSN – Module séquentiel 2026
 </footer>
+
+<audio id="bip">
+    <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg">
+</audio>
+
+<script>
+function playSound() {
+    document.getElementById("bip").play();
+}
+</script>
 
 </body>
 </html>
