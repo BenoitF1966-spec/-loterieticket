@@ -1,575 +1,104 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>IRSN – Protocole séquentiel</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRSN – Protocole séquentiel</title>
 
-<style>
-    body {
-        background:white;
-        color:#111;
-        font-family:"Arial", sans-serif;
-        margin:0;
-        padding:0;
-    }
+    <style>
+        body {
+            background:white;
+            color:#111;
+            font-family:"Arial", sans-serif;
+            margin:0;
+            padding:0;
+        }
 
-    header {
-        background:#000;
-        color:white;
-        padding:15px 0;
-        text-align:center;
-        box-shadow:0 2px 6px rgba(0,0,0,0.3);
-    }
+        header {
+            background:#002147;
+            color:white;
+            padding:20px;
+            text-align:center;
+        }
 
-    header img {
-        width:160px;
-        height:auto;
-        display:block;
-        margin:0 auto;
-    }
+        header img {
+            width:180px;
+            margin-bottom:10px;
+        }
 
-    header .title {
-        font-size:22px;
-        font-weight:bold;
-        letter-spacing:1px;
-        text-transform:uppercase;
-        margin-top:8px;
-    }
+        h1 {
+            margin:0;
+            font-size:28px;
+            letter-spacing:1px;
+        }
 
-    .screen {
-        display:none;
-        padding:20px;
-        max-width:650px;
-        margin:30px auto;
-        background:white;
-        border-radius:8px;
-        box-shadow:0 0 15px rgba(0,0,0,0.15);
-        color:#111;
-    }
+        section {
+            padding:20px;
+            max-width:900px;
+            margin:auto;
+            line-height:1.6;
+        }
 
-    .active { display:block; }
+        .bloc {
+            background:#f2f2f2;
+            padding:20px;
+            border-radius:8px;
+            margin-bottom:20px;
+            border-left:6px solid #002147;
+        }
 
-    h2 { color:#0B3D91; }
+        .titre {
+            font-size:22px;
+            font-weight:bold;
+            margin-bottom:10px;
+        }
 
-    #grid49 {
-        display:grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap:8px;
-        margin-top:20px;
-    }
-
-    .numCell {
-        background:#EEE;
-        color:#0B3D91;
-        padding:14px;
-        font-size:20px;
-        border-radius:6px;
-        text-align:center;
-        box-shadow:0 0 6px rgba(0,0,0,0.15);
-        transition:0.2s;
-        user-select:none;
-        cursor:pointer;
-    }
-
-    .numCell.selected {
-        background:#FF3B3B;
-        color:white;
-        box-shadow:0 0 12px rgba(255,59,59,0.6);
-    }
-
-    button {
-        margin-top:20px;
-        padding:10px 20px;
-        background:#0B3D91;
-        color:white;
-        border:none;
-        border-radius:6px;
-        font-size:16px;
-        cursor:pointer;
-    }
-
-    button:hover {
-        background:#06275F;
-    }
-
-    input {
-        width:100%;
-        padding:10px;
-        margin:8px 0 15px 0;
-        border:1px solid #CCC;
-        border-radius:6px;
-        font-size:16px;
-    }
-
-    .opRow {
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        justify-content:center;
-        margin:14px 0;
-        font-size:20px;
-    }
-
-    .opRowMain {
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        margin-bottom:4px;
-    }
-
-    .opHint {
-        font-size:12px;
-        color:#555;
-    }
-
-    /* BOUTONS D’OPÉRATIONS – VISIBLES, COLORÉS, RONDS, AVEC HALO */
-    .opBtn {
-        margin:0 10px;
-        padding:14px 22px;
-        font-size:26px;
-        font-weight:bold;
-        border-radius:999px;
-        border:2px solid #0B3D91;
-        cursor:pointer;
-        background:#e8f0ff;
-        color:#0B3D91;
-        transition:0.15s;
-        box-shadow:0 0 4px rgba(0,0,0,0.2);
-    }
-
-    .opBtn.plus {
-        border-color:#c62828;
-        color:#c62828;
-        background:#ffecec;
-    }
-
-    .opBtn.mult {
-        border-color:#0B3D91;
-        color:#0B3D91;
-        background:#e8f0ff;
-    }
-
-    .opBtn:hover {
-        transform:scale(1.07);
-        box-shadow:0 0 10px rgba(0,0,0,0.35);
-    }
-
-    .opBtn.selected.plus {
-        background:#c62828;
-        color:white;
-        box-shadow:0 0 14px rgba(198,40,40,0.9);
-    }
-
-    .opBtn.selected.mult {
-        background:#0B3D91;
-        color:white;
-        box-shadow:0 0 14px rgba(11,61,145,0.9);
-    }
-
-    .consoleGreen {
-        background:#003300;
-        color:#00ff00;
-        font-family:"Consolas","Courier New",monospace;
-        padding:15px;
-        border-radius:6px;
-        font-size:14px;
-        max-height:260px;
-        overflow:auto;
-        margin-top:20px;
-        border:1px solid #00aa00;
-    }
-
-    .finalSeq {
-        margin-top:25px;
-        font-size:28px;
-        font-weight:bold;
-        text-align:center;
-        color:#0B3D91;
-        letter-spacing:4px;
-    }
-
-    .actions {
-        margin-top:20px;
-        text-align:center;
-    }
-
-    .actions button {
-        margin:5px 10px;
-    }
-</style>
+        footer {
+            background:#002147;
+            color:white;
+            text-align:center;
+            padding:10px;
+            margin-top:40px;
+            font-size:14px;
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
-    <img src="public/irsn-nasa.png" alt="IRSN Logo">
-    <div class="title">Institut de Recherche en Structures Numériques</div>
+    <img src="irsn-nasa.png" alt="IRSN Logo">
+    <h1>IRSN – Protocole Séquentiel</h1>
 </header>
 
-<!-- ÉCRAN 0 — PRÉSENTATION -->
-<div id="screen0" class="screen active">
-    <h2>Présentation du protocole</h2>
+<section>
 
-    <p>
-        L’IRSN étudie la manière dont les individus organisent spontanément 
-        l’information lorsqu’ils interagissent avec des structures numériques.
-    </p>
-
-    <p>
-        Le protocole que vous allez suivre comporte quatre étapes successives :
-    </p>
-
-    <ul>
-        <li><b>Sélection de valeurs primaires</b></li>
-        <li><b>Donnée de stabilisation</b></li>
-        <li><b>Choix opératoire</b> (une addition permise)</li>
-        <li><b>Analyse et stabilisation séquentielle</b></li>
-    </ul>
-
-    <p>
-        À l’issue du processus, le module IRSN‑CORE génère une 
-        <b>séquence stabilisée</b> propre à votre cheminement interne.
-    </p>
-
-    <button onclick="goToStep1()">Commencer</button>
-</div>
-
-<!-- ÉCRAN 1 -->
-<div id="screen1" class="screen">
-    <h2>Étape 1 — Sélection des valeurs</h2>
-    <p>Sélectionnez <b>6 valeurs</b> dans la matrice ci‑dessous.</p>
-
-    <div id="grid49"></div>
-
-    <h3>Valeurs sélectionnées :</h3>
-    <div id="sequenceDisplay" style="font-size:24px;font-weight:bold;"></div>
-
-    <p id="infoSelection"></p>
-
-    <button onclick="goToStep2()">Continuer</button>
-</div>
-
-<!-- ÉCRAN 2 -->
-<div id="screen2" class="screen">
-    <h2>Étape 2 — Donnée de stabilisation</h2>
-
-    <p>Entrez une date utilisée comme donnée de stabilisation.</p>
-
-    <label>Jour :</label>
-    <input type="number" id="day" min="1" max="31">
-
-    <label>Mois :</label>
-    <input type="number" id="month" min="1" max="12">
-
-    <label>Année :</label>
-    <input type="number" id="year" min="1900" max="2100">
-
-    <button onclick="goToStep3()">Continuer</button>
-</div>
-
-<!-- ÉCRAN 3 — OPÉRATIONS -->
-<div id="screen3" class="screen">
-    <h2>Étape 3 — Sélection des opérations</h2>
-
-    <p>Choisissez une opération entre chaque valeur.  
-    <b>Une seule addition est permise.</b></p>
-
-    <div id="opsContainer"></div>
-
-    <button onclick="validateOps()">Analyser</button>
-</div>
-
-<!-- ÉCRAN 4 — ANALYSE -->
-<div id="screen4" class="screen">
-    <h2>Analyse du modèle</h2>
-
-    <div class="consoleGreen" id="greenConsole">
-        [IRSN-CORE] Initialisation du module…<br>
+    <div class="bloc">
+        <div class="titre">Identification du Sujet</div>
+        <p>
+            Veuillez confirmer votre identité en sélectionnant les paramètres requis.
+        </p>
     </div>
 
-    <div class="finalSeq" id="finalSeqDisplay"></div>
-
-    <div class="actions">
-        <button onclick="exportReport()">Exporter le rapport</button>
-        <button onclick="restartAll()">Recommencer</button>
+    <div class="bloc">
+        <div class="titre">Protocole 649‑EXTRA</div>
+        <p>
+            Ce module permet la validation séquentielle des données transmises.
+        </p>
     </div>
-</div>
 
-<script>
-let selectedOrder = [];
-let rawNumber = "";
-let operations = [];
-let additionUsed = false;
+    <div class="bloc">
+        <div class="titre">Analyse en cours</div>
+        <p>
+            Veuillez patienter pendant le traitement des informations.
+        </p>
+    </div>
 
-const finalSequence = [2, 6, 14, 27, 33, 41];
+</section>
 
-function goToStep1() {
-    screen0.classList.remove("active");
-    screen1.classList.add("active");
-}
-
-function generateGrid49() {
-    const grid = document.getElementById("grid49");
-    grid.innerHTML = "";
-    selectedOrder = [];
-    sequenceDisplay.innerText = "";
-    infoSelection.innerText = "Sélection : 0 / 6";
-
-    for (let i = 1; i <= 49; i++) {
-        const cell = document.createElement("div");
-        cell.className = "numCell";
-        cell.innerText = i;
-
-        cell.onclick = function() {
-            if (cell.classList.contains("selected")) {
-                cell.classList.remove("selected");
-                selectedOrder = selectedOrder.filter(n => n !== i);
-            } else {
-                if (selectedOrder.length >= 6) return;
-                cell.classList.add("selected");
-                selectedOrder.push(i);
-            }
-
-            sequenceDisplay.innerText = selectedOrder.join(" – ");
-            infoSelection.innerText = "Sélection : " + selectedOrder.length + " / 6";
-        };
-
-        grid.appendChild(cell);
-    }
-}
-
-function goToStep2() {
-    if (selectedOrder.length !== 6) {
-        alert("Veuillez sélectionner exactement 6 valeurs.");
-        return;
-    }
-    screen1.classList.remove("active");
-    screen2.classList.add("active");
-}
-
-function goToStep3() {
-    const d = day.value;
-    const m = month.value;
-    const y = year.value;
-
-    if (!d || !m || !y) {
-        alert("Veuillez entrer une date complète.");
-        return;
-    }
-
-    rawNumber = d + "" + m + "" + y;
-
-    screen2.classList.remove("active");
-    screen3.classList.add("active");
-
-    buildOpsUI();
-}
-
-function buildOpsUI() {
-    const container = document.getElementById("opsContainer");
-    container.innerHTML = "";
-    operations = [];
-    additionUsed = false;
-
-    for (let i = 0; i < 5; i++) {
-        const row = document.createElement("div");
-        row.className = "opRow";
-
-        const main = document.createElement("div");
-        main.className = "opRowMain";
-
-        const labelLeft = document.createElement("span");
-        labelLeft.innerText = selectedOrder[i] + "   ";
-
-        const plusBtn = document.createElement("button");
-        plusBtn.className = "opBtn plus";
-        plusBtn.innerText = "+";
-
-        const multBtn = document.createElement("button");
-        multBtn.className = "opBtn mult";
-        multBtn.innerText = "×";
-
-        plusBtn.onclick = () => selectOp(i, "+", plusBtn, multBtn);
-        multBtn.onclick = () => selectOp(i, "×", plusBtn, multBtn);
-
-        const labelRight = document.createElement("span");
-        labelRight.innerText = "   " + selectedOrder[i+1];
-
-        main.appendChild(labelLeft);
-        main.appendChild(plusBtn);
-        main.appendChild(multBtn);
-        main.appendChild(labelRight);
-
-        const hint = document.createElement("div");
-        hint.className = "opHint";
-        hint.innerText = "Choisissez l’opération entre " + selectedOrder[i] + " et " + selectedOrder[i+1];
-
-        row.appendChild(main);
-        row.appendChild(hint);
-
-        container.appendChild(row);
-    }
-}
-
-function clickSound() {
-    try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "square";
-        osc.frequency.value = 220;
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        gain.gain.setValueAtTime(0.12, ctx.currentTime);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.07);
-    } catch(e) {}
-}
-
-function selectOp(index, op, plusBtn, multBtn) {
-    if (op === "+") {
-        if (additionUsed) {
-            alert("Une seule addition est permise.");
-            return;
-        }
-        additionUsed = true;
-    }
-
-    operations[index] = op;
-
-    plusBtn.classList.toggle("selected", op === "+");
-    multBtn.classList.toggle("selected", op === "×");
-
-    clickSound();
-}
-
-function validateOps() {
-    if (operations.length !== 5 || operations.includes(undefined)) {
-        alert("Veuillez sélectionner une opération entre chaque valeur.");
-        return;
-    }
-
-    screen3.classList.remove("active");
-    screen4.classList.add("active");
-
-    runAnalysis();
-}
-
-function playBeep() {
-    try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "sine";
-        osc.frequency.value = 880;
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        gain.gain.setValueAtTime(0.2, ctx.currentTime);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.15);
-    } catch(e) {}
-}
-
-function runAnalysis() {
-    const c = greenConsole;
-    c.innerHTML = "[IRSN-CORE] Initialisation du module…<br>";
-
-    const logs = [];
-
-    logs.push("[IRSN-CORE] Chargement des valeurs primaires :");
-    logs.push(" → " + selectedOrder.join("  "));
-    logs.push("[IRSN-CORE] Donnée de stabilisation reçue :");
-    logs.push(" → " + rawNumber);
-    logs.push("[IRSN-CORE] Opérations sélectionnées :");
-    logs.push(" → " + operations.join("  "));
-
-    const combined = selectedOrder.map((v, i) => {
-        if (i < operations.length && operations[i] === "+") return v + 1;
-        return v * 1;
-    });
-
-    logs.push("[IRSN-CORE] Construction du vecteur combiné :");
-    logs.push(" → " + combined.join("  "));
-
-    logs.push("[IRSN-CORE] Segmentation en blocs…");
-    for (let i = 0; i < combined.length; i += 2) {
-        logs.push("   Bloc " + (i/2+1) + " : " + combined.slice(i, i+2).join(" / "));
-    }
-
-    const coherence = Math.floor(70 + Math.random()*25);
-    logs.push("[IRSN-CORE] Calcul de l’indice de cohérence interne…");
-    logs.push(" → " + coherence + " %");
-
-    logs.push("[IRSN-CORE] Stabilisation de la structure en cours…");
-    logs.push("[IRSN-CORE] Séquence stabilisée obtenue.");
-
-    let index = 0;
-    const interval = setInterval(() => {
-        if (index >= logs.length) {
-            clearInterval(interval);
-            finalSeqDisplay.innerText = finalSequence.join(" – ");
-            playBeep();
-            return;
-        }
-        c.innerHTML += logs[index] + "<br>";
-        c.scrollTop = c.scrollHeight;
-        index++;
-    }, 250);
-}
-
-function exportReport() {
-    const coherenceLine = Array.from(
-        greenConsole.innerText.split("\n")
-    ).find(l => l.includes("%")) || "";
-
-    const report =
-`IRSN – Rapport de séquence
-
-Valeurs primaires :
-${selectedOrder.join("  ")}
-
-Donnée de stabilisation :
-${rawNumber}
-
-Opérations :
-${operations.join("  ")}
-
-${coherenceLine}
-
-Séquence stabilisée :
-${finalSequence.join(" – ")}
-`;
-
-    const blob = new Blob([report], {type:"text/plain;charset=utf-8"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "rapport-irsn.txt";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
-
-function restartAll() {
-    selectedOrder = [];
-    rawNumber = "";
-    operations = [];
-    additionUsed = false;
-    day.value = "";
-    month.value = "";
-    year.value = "";
-    greenConsole.innerHTML = "[IRSN-CORE] Initialisation du module…<br>";
-    finalSeqDisplay.innerText = "";
-    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-    screen0.classList.add("active");
-    generateGrid49();
-}
-
-generateGrid49();
-</script>
+<footer>
+    © IRSN – Protocole Séquentiel – 2026
+</footer>
 
 </body>
 </html>
-
