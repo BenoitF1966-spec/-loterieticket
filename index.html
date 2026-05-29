@@ -1,148 +1,192 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IRSN – Protocole Séquentiel</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRSN – Protocole séquentiel</title>
 
-<style>
-    body {
-        margin:0;
-        background:#0a0f1c;
-        color:white;
-        font-family:Arial, sans-serif;
-        text-align:center;
-    }
+    <style>
+        body {
+            margin:0;
+            font-family:Arial, sans-serif;
+            background:#0a0f1c;
+            color:#f5f5f5;
+        }
 
-    header {
-        padding:20px;
-        background:#001a33;
-        border-bottom:3px solid #0af;
-    }
+        header {
+            background:#001a33;
+            color:white;
+            text-align:center;
+            padding:20px;
+            border-bottom:3px solid #0af;
+        }
 
-    header img {
-        width:160px;
-        margin-bottom:10px;
-    }
+        header img {
+            width:160px;
+            margin-bottom:10px;
+        }
 
-    h1 {
-        margin:0;
-        font-size:28px;
-        letter-spacing:2px;
-        text-transform:uppercase;
-    }
+        h1 {
+            margin:0;
+            font-size:28px;
+            letter-spacing:2px;
+            text-transform:uppercase;
+        }
 
-    .container {
-        margin-top:40px;
-    }
+        main {
+            max-width:1000px;
+            margin:20px auto 40px auto;
+            padding:0 15px;
+        }
 
-    .btn {
-        width:160px;
-        height:160px;
-        border-radius:50%;
-        background:#002b55;
-        border:3px solid #0af;
-        display:inline-flex;
-        justify-content:center;
-        align-items:center;
-        margin:20px;
-        font-size:20px;
-        cursor:pointer;
-        transition:0.3s;
-        box-shadow:0 0 15px #0af;
-    }
+        .bloc {
+            background:#111827;
+            border-left:4px solid #0af;
+            padding:15px 20px;
+            margin-bottom:20px;
+            border-radius:6px;
+        }
 
-    .btn:hover {
-        background:#0af;
-        color:black;
-        transform:scale(1.1);
-        box-shadow:0 0 25px #4cf;
-    }
+        .bloc h2 {
+            margin-top:0;
+            font-size:20px;
+            color:#7dd3fc;
+        }
 
-    #zone-analyse {
-        margin-top:40px;
-        display:none;
-        font-size:22px;
-    }
+        .bloc p {
+            margin:5px 0 0 0;
+            line-height:1.5;
+        }
 
-    .loader {
-        margin:20px auto;
-        border:6px solid #003;
-        border-top:6px solid #0af;
-        border-radius:50%;
-        width:60px;
-        height:60px;
-        animation:spin 1s linear infinite;
-    }
+        table {
+            width:100%;
+            border-collapse:collapse;
+            margin-top:10px;
+        }
 
-    @keyframes spin {
-        0% { transform:rotate(0deg); }
-        100% { transform:rotate(360deg); }
-    }
+        th, td {
+            border:1px solid #1f2937;
+            padding:8px;
+            text-align:center;
+            font-size:16px;
+        }
 
-    footer {
-        margin-top:60px;
-        padding:10px;
-        background:#001a33;
-        font-size:14px;
-        border-top:3px solid #0af;
-    }
-</style>
+        th {
+            background:#111827;
+            color:#e5e7eb;
+        }
+
+        td {
+            background:#020617;
+            color:#e5e7eb;
+        }
+
+        td:hover {
+            background:#0af;
+            color:#000;
+            cursor:pointer;
+        }
+
+        .analyse {
+            margin-top:20px;
+            display:flex;
+            align-items:center;
+            gap:15px;
+        }
+
+        .loader {
+            border:4px solid #1f2937;
+            border-top:4px solid #0af;
+            border-radius:50%;
+            width:32px;
+            height:32px;
+            animation:spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform:rotate(0deg); }
+            100% { transform:rotate(360deg); }
+        }
+
+        footer {
+            background:#001a33;
+            color:#9ca3af;
+            text-align:center;
+            padding:10px;
+            font-size:13px;
+            border-top:3px solid #0af;
+        }
+    </style>
 </head>
-
 <body>
 
 <header>
     <img src="irsn-nasa.png" alt="IRSN Logo">
-    <h1>Protocole Séquentiel – IRSN</h1>
+    <h1>IRSN – Protocole séquentiel</h1>
 </header>
 
-<div class="container">
+<main>
 
-    <div class="btn" onclick="jouerSon(); lancerAnalyse('Identification en cours…')">
-        Identification
+    <div class="bloc">
+        <h2>Présentation du protocole</h2>
+        <p>
+            Cette interface simule un module de contrôle séquentiel utilisé pour la validation de paramètres
+            numériques. La grille ci‑dessous présente un ensemble de valeurs de 1 à 49, organisées pour une
+            consultation rapide et structurée.
+        </p>
     </div>
 
-    <div class="btn" onclick="jouerSon(); lancerAnalyse('Validation des paramètres…')">
-        Validation
+    <div class="bloc">
+        <h2>Tableau des valeurs (1 à 49)</h2>
+        <p>
+            Chaque cellule représente une valeur individuelle pouvant être sélectionnée ou analysée dans le cadre
+            d’un protocole de vérification.
+        </p>
+
+        <table>
+            <tr>
+                <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
+            </tr>
+            <tr>
+                <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
+            </tr>
+            <tr>
+                <td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td>
+            </tr>
+            <tr>
+                <td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td>
+            </tr>
+            <tr>
+                <td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td>
+            </tr>
+            <tr>
+                <td>29</td><td>30</td><td>31</td><td>32</td><td>33</td><td>34</td><td>35</td>
+            </tr>
+            <tr>
+                <td>36</td><td>37</td><td>38</td><td>39</td><td>40</td><td>41</td><td>42</td>
+            </tr>
+            <tr>
+                <td>43</td><td>44</td><td>45</td><td>46</td><td>47</td><td>48</td><td>49</td>
+            </tr>
+        </table>
     </div>
 
-    <div class="btn" onclick="jouerSon(); lancerAnalyse('Analyse des données…')">
-        Analyse
+    <div class="bloc">
+        <h2>Analyse en cours</h2>
+        <div class="analyse">
+            <div class="loader"></div>
+            <p>
+                Analyse séquentielle des paramètres en cours…<br>
+                Veuillez patienter pendant le traitement des données.
+            </p>
+        </div>
     </div>
 
-</div>
-
-<div id="zone-analyse">
-    <div id="texte-analyse"></div>
-    <div class="loader"></div>
-</div>
+</main>
 
 <footer>
-    © IRSN – Interface Séquentielle 2026
+    © IRSN – Module de démonstration séquentielle – 2026
 </footer>
-
-<audio id="bip">
-    <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg">
-</audio>
-
-<script>
-function jouerSon() {
-    document.getElementById("bip").play();
-}
-
-function lancerAnalyse(message) {
-    const zone = document.getElementById("zone-analyse");
-    const texte = document.getElementById("texte-analyse");
-
-    texte.innerHTML = message;
-    zone.style.display = "block";
-
-    setTimeout(() => {
-        texte.innerHTML = "Traitement terminé.";
-    }, 3500);
-}
-</script>
 
 </body>
 </html>
