@@ -1,104 +1,148 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IRSN – Protocole séquentiel</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRSN – Protocole Séquentiel</title>
 
-    <style>
-        body {
-            background:white;
-            color:#111;
-            font-family:"Arial", sans-serif;
-            margin:0;
-            padding:0;
-        }
+<style>
+    body {
+        margin:0;
+        background:#0a0f1c;
+        color:white;
+        font-family:Arial, sans-serif;
+        text-align:center;
+    }
 
-        header {
-            background:#002147;
-            color:white;
-            padding:20px;
-            text-align:center;
-        }
+    header {
+        padding:20px;
+        background:#001a33;
+        border-bottom:3px solid #0af;
+    }
 
-        header img {
-            width:180px;
-            margin-bottom:10px;
-        }
+    header img {
+        width:160px;
+        margin-bottom:10px;
+    }
 
-        h1 {
-            margin:0;
-            font-size:28px;
-            letter-spacing:1px;
-        }
+    h1 {
+        margin:0;
+        font-size:28px;
+        letter-spacing:2px;
+        text-transform:uppercase;
+    }
 
-        section {
-            padding:20px;
-            max-width:900px;
-            margin:auto;
-            line-height:1.6;
-        }
+    .container {
+        margin-top:40px;
+    }
 
-        .bloc {
-            background:#f2f2f2;
-            padding:20px;
-            border-radius:8px;
-            margin-bottom:20px;
-            border-left:6px solid #002147;
-        }
+    .btn {
+        width:160px;
+        height:160px;
+        border-radius:50%;
+        background:#002b55;
+        border:3px solid #0af;
+        display:inline-flex;
+        justify-content:center;
+        align-items:center;
+        margin:20px;
+        font-size:20px;
+        cursor:pointer;
+        transition:0.3s;
+        box-shadow:0 0 15px #0af;
+    }
 
-        .titre {
-            font-size:22px;
-            font-weight:bold;
-            margin-bottom:10px;
-        }
+    .btn:hover {
+        background:#0af;
+        color:black;
+        transform:scale(1.1);
+        box-shadow:0 0 25px #4cf;
+    }
 
-        footer {
-            background:#002147;
-            color:white;
-            text-align:center;
-            padding:10px;
-            margin-top:40px;
-            font-size:14px;
-        }
-    </style>
+    #zone-analyse {
+        margin-top:40px;
+        display:none;
+        font-size:22px;
+    }
+
+    .loader {
+        margin:20px auto;
+        border:6px solid #003;
+        border-top:6px solid #0af;
+        border-radius:50%;
+        width:60px;
+        height:60px;
+        animation:spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform:rotate(0deg); }
+        100% { transform:rotate(360deg); }
+    }
+
+    footer {
+        margin-top:60px;
+        padding:10px;
+        background:#001a33;
+        font-size:14px;
+        border-top:3px solid #0af;
+    }
+</style>
 </head>
 
 <body>
 
 <header>
     <img src="irsn-nasa.png" alt="IRSN Logo">
-    <h1>IRSN – Protocole Séquentiel</h1>
+    <h1>Protocole Séquentiel – IRSN</h1>
 </header>
 
-<section>
+<div class="container">
 
-    <div class="bloc">
-        <div class="titre">Identification du Sujet</div>
-        <p>
-            Veuillez confirmer votre identité en sélectionnant les paramètres requis.
-        </p>
+    <div class="btn" onclick="jouerSon(); lancerAnalyse('Identification en cours…')">
+        Identification
     </div>
 
-    <div class="bloc">
-        <div class="titre">Protocole 649‑EXTRA</div>
-        <p>
-            Ce module permet la validation séquentielle des données transmises.
-        </p>
+    <div class="btn" onclick="jouerSon(); lancerAnalyse('Validation des paramètres…')">
+        Validation
     </div>
 
-    <div class="bloc">
-        <div class="titre">Analyse en cours</div>
-        <p>
-            Veuillez patienter pendant le traitement des informations.
-        </p>
+    <div class="btn" onclick="jouerSon(); lancerAnalyse('Analyse des données…')">
+        Analyse
     </div>
 
-</section>
+</div>
+
+<div id="zone-analyse">
+    <div id="texte-analyse"></div>
+    <div class="loader"></div>
+</div>
 
 <footer>
-    © IRSN – Protocole Séquentiel – 2026
+    © IRSN – Interface Séquentielle 2026
 </footer>
+
+<audio id="bip">
+    <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg">
+</audio>
+
+<script>
+function jouerSon() {
+    document.getElementById("bip").play();
+}
+
+function lancerAnalyse(message) {
+    const zone = document.getElementById("zone-analyse");
+    const texte = document.getElementById("texte-analyse");
+
+    texte.innerHTML = message;
+    zone.style.display = "block";
+
+    setTimeout(() => {
+        texte.innerHTML = "Traitement terminé.";
+    }, 3500);
+}
+</script>
 
 </body>
 </html>
